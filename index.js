@@ -135,6 +135,14 @@ if(message.channel.name == "vote-1") {
 	await message.react("🙂");
 	await message.react("😀");
 	return;
+}
+if(message.channel.name == "vote-2") {
+	await message.react("😭");
+	await message.react("😦");
+	await message.react("😕");
+	await message.react("🙂");
+	await message.react("😀");
+	return;
 } 
 	
 if (message.content.startsWith("/accinfo")){
