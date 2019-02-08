@@ -1,0 +1,18 @@
+{
+  "name": "bamboni",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "mongoose-paginate": "git://github.com/zerok78/mongoose-paginate.git#version-5.0.4",
+    "random-number": "0.0.9",
+    "superagent": "^3.8.3",
+    "xmlhttprequest": "^1.8.0"
+  }
+}
