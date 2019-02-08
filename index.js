@@ -17,7 +17,7 @@ let antislivsp2 = new Set();
 
 var adm_power_reload = 0;
 var object_admin;
-let levelhigh;
+let levelhigh = 0;
 
 let setembed_general = ["не указано", "не указано", "не указано", "не указано", "не указано", "не указано", "не указано"];
 let setembed_fields = ["нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет"];
