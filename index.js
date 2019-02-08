@@ -129,11 +129,11 @@ bot.on('message', async message => {
 	return;
     }
 if(message.channel.name == "vote-1") {
-	message.react(":one:");
-	message.react(":two:");
-	message.react(":three:");
-	message.react(":four:");
-	message.react(":five");
+	await message.react(":one:");
+	await message.react(":two:");
+	await message.react(":three:");
+	await message.react(":four:");
+	await message.react(":five");
 	return;
 } 
 	
