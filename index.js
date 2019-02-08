@@ -17,6 +17,7 @@ let antislivsp2 = new Set();
 
 var adm_power_reload = 0;
 var object_admin;
+let levelhigh;
 
 let setembed_general = ["не указано", "не указано", "не указано", "не указано", "не указано", "не указано", "не указано"];
 let setembed_fields = ["нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет"];
@@ -228,4 +229,32 @@ if (message.content.startsWith("/accinfo")){
    
 });
 
+
+bot.on('guildMemberAdd', async member => {
+    if (member.guild.id != serverid) return
+    levelhigh++;
+    if (levelhigh >= 5){
+        if (member.hasPermission("MANAGE_ROLES")){
+            member.guild.channels.find(c => c.name == "antiddos-log").send(`\`[SYSTEM]\` ${member} \`мог быть заблокирован за попытку атаки. Уровень опасности: ${levelhigh}\``);
+        }else{
+            member.ban(`by RisBot [DDOS]`);
+            console.log(`${member.id} - заблокирован за ДДОС.`)
+            member.guild.channels.find(c => c.name == "antiddos-log").send(`\`[SYSTEM]\` ${member} \`был заблокирован за попытку атаки. Уровень опасности: ${levelhigh}\``)
+        }
+        setTimeout(() => {
+            if (levelhigh > 0){
+                member.guild.channels.find(c => c.name == "antiddos-log").send(`\`[SYSTEM]\` \`Уровень опасности сервера был установлен с ${levelhigh} на ${+levelhigh - 1}.\``);
+                levelhigh--;
+            }
+        }, 60000*levelhigh);
+    }else{
+        member.guild.channels.find(c => c.name == "antiddos-log").send(`\`[SYSTEM]\` ${member} \`вошел на сервер. Уровень опасности: ${levelhigh}/5\``)
+        setTimeout(() => {
+            if (levelhigh > 0){
+                member.guild.channels.find(c => c.name == "antiddos-log").send(`\`[SYSTEM]\` \`Уровень опасности сервера был установлен с ${levelhigh} на ${+levelhigh - 1}.\``);
+                levelhigh--;
+            }
+        }, 60000*levelhigh);
+    }
+})
 
