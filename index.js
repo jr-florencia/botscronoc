@@ -154,7 +154,7 @@ message.guild.channels.find(c => c.name == "antiddos-log").send(`**Систем�
 }, 180000)
 return;
 }
-if(message.content == "/offad") {
+if(message.content == "/startad") {
 if(antiddos == 1) {
 clearTimeout(clearad);
 message.reply("**Система возобновлена в работу принудительно!**");
