@@ -3,7 +3,7 @@ const tokenfile = require("./token.json");
 const Discord = require("discord.js");
 const fs = require("fs");
 const bot = new Discord.Client({disableEveryone: true});
-const serverid = "531574527335989269";
+const serverid = "543354025387491339";
 
 let requests = JSON.parse(fs.readFileSync("./database/requests.json", "utf8"));
 let blacklist = JSON.parse(fs.readFileSync("./database/blacklist names.json", "utf8"));
@@ -97,16 +97,7 @@ bot.on("ready", async () => {
   console.log(`Автор бота: Луняша`);
   console.log(`Автор некоторых систем: Kory_McGregor (Артём Мясников)`);
   //bot.guilds.find(g => g.id == "474975625011003393").channels.find(c => c.name == "general-startbot").send(`\`Бот МакДак запущен!\``);
-    if(power == 1) bot.user.setGame("Режим модератора");
-    if(power == 2) bot.user.setGame("Режим администратора");
-    if(power == 3) bot.user.setGame("Режим LOCKED");
-	if(adm_power_reload == 1) {
-		object_admin.removeRoles(object_admin.roles);
-		adm_power_reload = 0;
-		bot.destroy().then(() => {
-                	bot.login(process.env.token)
-                })
-	}
+ 	bot.user.setGame("Developer's: Yuki Flores & Kory McGregor (Source Code)");
 
   //bot.user.setGame("on SourceCade!");
 });
@@ -137,10 +128,19 @@ bot.on('message', async message => {
 	    }
 	return;
     }
+if(message.channel.name == "vote-1") {
+	message.react(":one:");
+	message.react(":two:");
+	message.react(":three:");
+	message.react(":four:");
+	message.react(":five");
+	return;
+} 
+	
     
 	
 	
-	
+	/*
 	 if (message.content == '/embhelp'){
         if (!message.member.hasPermission("ADMINISTRATOR")) return
         message.reply(`\`Команды для модерации: /embsetup, /embfield, /embsend - отправить.\``);
@@ -340,7 +340,7 @@ bot.on('message', async message => {
    
     }
 	
-	
+	*/
 if (message.content.startsWith("/accinfo")){
         if (!message.member.hasPermission("MANAGE_ROLES")) return
         let user = message.guild.member(message.mentions.users.first());
@@ -419,116 +419,6 @@ if (message.content.startsWith("/accinfo")){
             }
             return message.delete();
         }
-    }
-	
-	    if (message.content.toLowerCase().includes("роль") && !message.content.toLowerCase().includes(`сними`) && !message.content.toLowerCase().includes(`снять`)){
-        // Проверить невалидный ли ник.
-        if (nrpnames.has(message.member.displayName)){
-            if(message.member.roles.some(r=>rolesgg.includes(r.name)) ) {
-                for (var i in rolesgg){
-                    let rolerem = bot.guilds.find(g => g.id == message.guild.id).roles.find(r => r.name == rolesgg[i]);
-                    if (message.member.roles.some(role=>[rolesgg[i]].includes(role.name))){
-                        await message.member.removeRole(rolerem); // Забрать роли указанные ранее.
-                    }
-                }
-            }
-            message.react(`📛`) // Поставить знак стоп под отправленным сообщением.
-            return // Выход
-        }
-        // Проверить все доступные тэги
-        for (var i in manytags){
-            if (message.member.displayName.toLowerCase().includes("[" + manytags[i].toLowerCase()) || message.member.displayName.toLowerCase().includes(manytags[i].toLowerCase() + "]") || message.member.displayName.toLowerCase().includes("(" + manytags[i].toLowerCase()) || message.member.displayName.toLowerCase().includes(manytags[i].toLowerCase() + ")") || message.member.displayName.toLowerCase().includes("{" + manytags[i].toLowerCase()) || message.member.displayName.toLowerCase().includes(manytags[i].toLowerCase() + "}")){
-                let rolename = tags[manytags[i].toUpperCase()] // Указать название роли по соответствию с тэгом
-                let role = message.guild.roles.find(r => r.name == rolename); // Найти эту роль на discord сервере.
-                let reqchat = message.guild.channels.find(c => c.name == `role`); // Найти чат на сервере.
-                if (!role){
-                    message.reply(`\`Ошибка выполнения. Роль ${rolename} не была найдена.\``)
-                    return console.error(`Роль ${rolename} не найдена!`);
-                }else if(!reqchat){
-                    message.reply(`\`Ошибка выполнения. Канал requests-for-roles не был найден!\``)
-                    return console.error(`Канал role не был найден!`)
-                }
-                if (message.member.roles.some(r => [rolename].includes(r.name))){
-                    return message.react(`👌`) // Если роль есть, поставить окей.
-                }
-                if (sened.has(message.member.displayName)) return message.react(`🕖`) // Если уже отправлял - поставить часы.
-                let nickname = message.member.displayName;
-                const embed = new Discord.RichEmbed()
-                .setTitle("`Discord » Проверка на валидность ник нейма.`")
-                .setColor("#483D8B")
-                .addField("Аккаунт", `\`Пользователь:\` <@${message.author.id}>`, true)
-                .addField("Никнейм", `\`Ник:\` ${nickname}`, true)
-                .addField("Роль для выдачи", `\`Роль для выдачи:\` <@&${role.id}>`)
-                .addField("Отправлено с канала", `<#${message.channel.id}>`)
-                .addField("Информация по выдачи", `\`[✔] - выдать роль\`\n` + `\`[❌] - отказать в выдачи роли\`\n` + `\`[D] - удалить сообщение\``)
-                .setFooter("© Support Team | by Kory_McGregor")
-                .setTimestamp()
-                reqchat.send(embed).then(async msgsen => {
-                    await msgsen.react('✔')
-                    await msgsen.react('❌')
-                    await msgsen.react('🇩')
-                    await msgsen.pin();
-                })
-                sened.add(message.member.displayName); // Пометить данный ник, что он отправлял запрос.
-                return message.react(`📨`);
-            }
-        }
-    }
-	
-	
-	if (message.content.toLowerCase().includes("сними") || message.content.toLowerCase().includes("снять")){
-        if (!message.member.roles.some(r => canremoverole.includes(r.name)) && !message.member.hasPermission("MANAGE_ROLES")) return
-        const args = message.content.split(/ +/)
-        let onebe = false;
-        let twobe = false;
-        args.forEach(word => {
-            if (word.toLowerCase().includes(`роль`)) onebe = true
-            if (word.toLowerCase().includes(`у`)) twobe = true
-        })
-        if (!onebe || !twobe) return
-        if (message.mentions.users.size > 1) return message.react(`📛`)
-        let user = message.guild.member(message.mentions.users.first());
-        if (!user) return message.react(`📛`)
-        if (snyatie.has(message.author.id + `=>` + user.id)) return message.react(`🕖`)
-        let reqchat = message.guild.channels.find(c => c.name == `role`); // Найти чат на сервере.
-        if(!reqchat){
-            message.reply(`\`Ошибка выполнения. Канал requests-for-roles не был найден!\``)
-            return console.error(`Канал requests-for-roles не был найден!`)
-        }
-        let roleremove = user.roles.find(r => rolesgg.includes(r.name));
-        if (!roleremove) return message.react(`📛`)
-
-        message.reply(`\`напишите причину снятия роли.\``).then(answer => {
-            message.channel.awaitMessages(response => response.member.id == message.member.id, {
-                max: 1,
-                time: 60000,
-                errors: ['time'],
-            }).then((collected) => {
-                const embed = new Discord.RichEmbed()
-                .setTitle("`Discord » Запрос о снятии роли.`")
-                .setColor("#483D8B")
-                .addField("Отправитель", `\`Пользователь:\` <@${message.author.id}>`)
-                .addField("Кому снять роль", `\`Пользователь:\` <@${user.id}>`)
-                .addField("Роль для снятия", `\`Роль для снятия:\` <@&${roleremove.id}>`)
-                .addField("Отправлено с канала", `<#${message.channel.id}>`)
-                .addField("Причина снятия роли", `${collected.first().content}`)
-                .addField("Информация", `\`[✔] - снять роль\`\n` + `\`[❌] - отказать в снятии роли\`\n` + `\`[D] - удалить сообщение\``)
-                .setFooter("© Support Team | by Kory_McGregor")
-                .setTimestamp()
-                reqchat.send(embed).then(async msgsen => {
-                    answer.delete();
-                    collected.first().delete();
-                    await msgsen.react('✔')
-                    await msgsen.react('❌')
-                    await msgsen.react('🇩')
-                    await msgsen.pin();
-                })
-                snyatie.add(message.author.id + `=>` + user.id)
-                return message.react(`📨`);
-            }).catch(() => {
-                return answer.delete()
-            });
-        });
     }
 
    
