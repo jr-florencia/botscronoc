@@ -18,7 +18,7 @@ let antislivsp2 = new Set();
 var adm_power_reload = 0;
 var object_admin;
 let levelhigh = 0;
-
+let clearad;
 let setembed_general = ["не указано", "не указано", "не указано", "не указано", "не указано", "не указано", "не указано"];
 let setembed_fields = ["нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет"];
 let setembed_addline = ["нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет"];
@@ -42,7 +42,7 @@ editmoder.add("408740341135704065"); // Юки
 
 
 var key = 0;
-
+var antiddos = 0;
 var power = 1;
 const cooldowncommand = new Set();
 
@@ -105,10 +105,10 @@ bot.on("ready", async () => {
 
 bot.login(process.env.token);
 
-function getRandomInt(min, max)
-{
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+
+
+
+
 
 
 
@@ -145,6 +145,23 @@ if(message.channel.name == "vote-2") {
 	await message.react("😀");
 	return;
 } 
+if(message.content == "/offad") {
+antiddos = 1;
+message.reply("Система отключена на 3 минуты, успей раздать инвайт код");	
+clearad = setTimeout({
+antiddos = 0;
+message.guild.channels.find(c => c.name == "antiddos-log").send(`**Система возобновляет защиту**`);	
+}, 180000)
+return;
+}
+if(message.content == "/offad") {
+if(antiddos == 1) {
+clearTimeout(clearad);
+message.reply("**Система возобновлена в работу принудительно!**");
+}
+if(antiddos != 1) return message.reply("**Система запущена!**");
+return;
+}
 	
 if (message.content.startsWith("/accinfo")){
         if (!message.member.hasPermission("MANAGE_ROLES")) return
@@ -232,12 +249,16 @@ if (message.content.startsWith("/accinfo")){
 
 bot.on('guildMemberAdd', async member => {
     if (member.guild.id != serverid) return
+    if (antiddos == 1) {
+     member.guild.channels.find(c => c.name == "antiddos-log").send(`\`[SYSTEM]\` ${member} \`мог быть заблокирован за попытку атаки. Система временно выключена\``);
+     return;
+    }
     levelhigh++;
     if (levelhigh >= 5){
         if (member.hasPermission("MANAGE_ROLES")){
             member.guild.channels.find(c => c.name == "antiddos-log").send(`\`[SYSTEM]\` ${member} \`мог быть заблокирован за попытку атаки. Уровень опасности: ${levelhigh}\``);
         }else{
-            member.ban(`by RisBot [DDOS]`);
+            member.ban(`by BOT [DDOS]`);
             console.log(`${member.id} - заблокирован за ДДОС.`)
             member.guild.channels.find(c => c.name == "antiddos-log").send(`\`[SYSTEM]\` ${member} \`был заблокирован за попытку атаки. Уровень опасности: ${levelhigh}\``)
         }
