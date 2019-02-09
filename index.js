@@ -280,3 +280,32 @@ bot.on('guildMemberAdd', async member => {
     }
 })
 
+bot.on('guildBanAdd', async (guild, user) => {
+    if (guild.id != serverid) return
+    setTimeout(async () => {
+        const entry = await guild.fetchAuditLogs({type: 'MEMBER_BAN_ADD'}).then(audit => audit.entries.first());
+        let member = await guild.members.get(entry.executor.id);
+        if (member.user.bot && lasttestid != 'net'){
+            member = await guild.members.get(lasttestid);
+            lasttestid = 'net';
+        }
+        let reason = await entry.reason;
+        if (!reason) reason = 'Причина не указана';
+	if (reason == 'by BOT [DDOS]'){
+	    guild.channels.find(c => c.name == "general").send(`**${user} был заблокирован за дудос.**`).then(msg => msg.delete(12000));
+	    return
+	}
+        const embed_ban = new Discord.RichEmbed()
+        .setThumbnail(user.avatarURL)
+        .setColor("#FF0000")
+        .addField(`**Информация о блокировке**`, `**Заблокирован: ${user}**\n**Заблокировал: ${member}**\n**Причина: \`${reason}\`**`)
+        // .addField(`**Причина блокировки**`, `**\`${reason}\`**`)
+        .setFooter(`Команда модераторов SampKitchen.`, guild.iconURL)
+        guild.channels.find(c => c.name == "general").send(embed_ban).catch(() => {
+            guild.channels.find(c => c.name == "general").send(`**${user} был заблокирован.**`)
+        })
+    }, 2000);
+})
+
+
+
