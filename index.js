@@ -5,13 +5,6 @@ const fs = require("fs");
 const bot = new Discord.Client({disableEveryone: true});
 const serverid = "543354025387491339";
 
-let requests = JSON.parse(fs.readFileSync("./database/requests.json", "utf8"));
-let blacklist = JSON.parse(fs.readFileSync("./database/blacklist names.json", "utf8"));
-let reqrem = JSON.parse(fs.readFileSync("./database/requests remove.json", "utf8"));
-const nrpnames = new Set(); // Невалидные ники будут записаны в nrpnames
-const sened = new Set(); // Уже отправленные запросы будут записаны в sened
-const support_cooldown = new Set(); // Запросы от игроков.
-const snyatie = new Set(); // Уже отправленные запросы на снятие роли быдут записаны в snyatie
 let antislivsp1 = new Set();
 let antislivsp2 = new Set();
 
@@ -20,9 +13,6 @@ var object_admin;
 let levelhigh = 0;
 let antiddos_level = 5;
 let clearad;
-let setembed_general = ["не указано", "не указано", "не указано", "не указано", "не указано", "не указано", "не указано"];
-let setembed_fields = ["нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет"];
-let setembed_addline = ["нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет"];
 
 
 ////////////ПРАВА ДОСТУПА К БОТАМ////////////////////////////
@@ -47,15 +37,6 @@ var antiddos = 0;
 var power = 1;
 const cooldowncommand = new Set();
 
-tags = ({
-    "A": "Administrator",
-});
-
-let manytags = [
-"A",
-];
-let rolesgg = ["Administrator"];
-let canremoverole = ["Admin"];
 
 const events = {
     MESSAGE_REACTION_ADD: 'messageReactionAdd',
